@@ -13,8 +13,6 @@ const generalTitle = `GOOGLE ADWORDS | ${dateHelper
   .getMonthName(date.getMonth())
   .toUpperCase()} ${year}`;
 
-console.log(`${firstPageTitle}\n${generalTitle}`);
-
 async function addImage(filePath, slide, imagePath, x, y, width, height) {
   try {
     let pptx = new PPTX.Composer();
@@ -30,22 +28,45 @@ async function addImage(filePath, slide, imagePath, x, y, width, height) {
     console.log(error);
   }
 }
-async function addText(filePath, slide) {
+
+async function addText(filePath, slide, config) {
   let pptx = new PPTX.Composer();
   await pptx.load(filePath);
 
   await pptx.compose(async (pres) => {
-    console.log("addText");
-    await pres.getSlide(slide).reaper();
+    await pres.getSlide(slide).addText(config);
   });
 
-  await pptx.save(`./text-box-new-simple.pptx`);
+  await pptx.save(filePath);
 }
 
-async function Execute() {
-  // for (var i = 2; i <= 10; i++) {}
+async function execute() {
+  await addText(pptxPath, "slide1", {
+    value: firstPageTitle,
+    x: 304.81,
+    y: 505.66,
+    cx: 305.94,
+    cy: 24.07,
+    textAlign: "center",
+    textWrap: "none",
+    fontSize: 14,
+    fontFace: "Montserrat",
+    textColor: "000000",
+  });
 
-  await addText(pptxPath, "slide2");
+  for (var i = 2; i <= 10; i++) {
+    await addText(pptxPath, "slide" + i, {
+      value: generalTitle,
+      x: 660,
+      y: 12.74,
+      // textAlign: "center",
+      textWrap: "none",
+      fontSize: 14,
+      fontFace: "Montserrat",
+      textColor: "a0d911",
+      fontBold: true,
+    });
+  }
 
   await addImage(
     pptxPath,
@@ -148,4 +169,4 @@ async function Execute() {
   );
 }
 
-Execute();
+execute();
