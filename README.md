@@ -7,6 +7,7 @@ the system takes the images from a common folder inside source and assembles the
 ## Libs used
 
 - [nodejs-pptx](https://www.npmjs.com/package/nodejs-pptx)
+- [nodemailer](https://nodemailer.com/)
 
 ## Corrections used
 
