@@ -2,6 +2,7 @@ require("dotenv").config();
 const PPTX = require("nodejs-pptx");
 const dateHelper = require("./utils/date.js");
 const mailer = require("./utils/send_email.js");
+const renameFiles = require("./utils/rename-files.js");
 
 const date = new Date();
 const year = date.getFullYear();
@@ -54,7 +55,92 @@ async function addText(filePath, reportPath, slide, config) {
   await pptx.save(reportPath);
 }
 
+const imagesData = [
+  {
+    slide: "slide2",
+    path: `./src/common/Série_temporal.png`,
+    x: 68.55,
+    y: 156.37,
+    width: 821.81,
+    height: 271.96,
+  },
+  {
+    slide: "slide3",
+    path: `./src/common/Anúncios.png`,
+    x: 84.98,
+    y: 175.92,
+    width: 367.7,
+    height: 283.28,
+  },
+  {
+    slide: "slide3",
+    path: `./src/common/Anúncios_mais_exibidos_2.png`,
+    x: 506.51,
+    y: 175.92,
+    width: 367.7,
+    height: 283.28,
+  },
+  {
+    slide: "slide4",
+    path: `./src/common/Anúncios_mais_exibidos_3.png`,
+    x: 84.98,
+    y: 175.92,
+    width: 367.7,
+    height: 283.28,
+  },
+  {
+    slide: "slide4",
+    path: `./src/common/Anúncios_mais_exibidos_4.png`,
+    x: 506.51,
+    y: 175.92,
+    width: 367.7,
+    height: 283.28,
+  },
+  {
+    slide: "slide5",
+    path: `./src/common/Anúncios_mais_exibidos_5.png`,
+    x: 84.98,
+    y: 175.92,
+    width: 367.7,
+    height: 283.28,
+  },
+  {
+    slide: "slide5",
+    path: `./src/common/Anúncios_mais_exibidos_6.png`,
+    x: 506.51,
+    y: 175.92,
+    width: 367.7,
+    height: 283.28,
+  },
+  {
+    slide: "slide6",
+    path: `./src/common/Pagina Destino.png`,
+    x: 206.51,
+    y: 63.17,
+    width: 622.37,
+    height: 416.71,
+  },
+  {
+    slide: "slide7",
+    path: `./src/common/Dispositivos.png`,
+    x: 84.98,
+    y: 175.92,
+    width: 367.7,
+    height: 283.28,
+  },
+  {
+    slide: "slide7",
+    path: `./src/common/Informações_demográficas.png`,
+    x: 506.51,
+    y: 175.92,
+    width: 367.7,
+    height: 283.28,
+  },
+];
+
 async function execute() {
+  renameFiles("./src/common/");
+
   await addText(templatePath, reportPath, "slide1", {
     value: firstPageTitle,
     x: 304.81,
@@ -82,115 +168,18 @@ async function execute() {
     });
   }
 
-  await addImage(
-    reportPath,
-    reportPath,
-    "slide2",
-    `./src/common/serie_temporal.png`,
-    68.55,
-    156.37,
-    821.81,
-    271.96
-  );
-
-  await addImage(
-    reportPath,
-    reportPath,
-    "slide3",
-    `./src/common/Anúncios.png`,
-    84.98,
-    175.92,
-    367.7,
-    283.28
-  );
-
-  await addImage(
-    reportPath,
-    reportPath,
-    "slide3",
-    `./src/common/Anúncios_mais_exibidos_2.png`,
-    506.51,
-    175.92,
-    367.7,
-    283.28
-  );
-
-  await addImage(
-    reportPath,
-    reportPath,
-    "slide4",
-    `./src/common/Anúncios_mais_exibidos_3.png`,
-    84.98,
-    175.92,
-    367.7,
-    283.28
-  );
-
-  await addImage(
-    reportPath,
-    reportPath,
-    "slide4",
-    `./src/common/Anúncios_mais_exibidos_4.png`,
-    506.51,
-    175.92,
-    367.7,
-    283.28
-  );
-
-  await addImage(
-    reportPath,
-    reportPath,
-    "slide5",
-    `./src/common/Anúncios_mais_exibidos_5.png`,
-    84.98,
-    175.92,
-    367.7,
-    283.28
-  );
-
-  await addImage(
-    reportPath,
-    reportPath,
-    "slide5",
-    `./src/common/Anúncios_mais_exibidos_6.png`,
-    506.51,
-    175.92,
-    367.7,
-    283.28
-  );
-
-  await addImage(
-    reportPath,
-    reportPath,
-    "slide6",
-    `./src/common/Pagina Destino.png`,
-    206.51,
-    63.17,
-    622.37,
-    416.71
-  );
-
-  await addImage(
-    reportPath,
-    reportPath,
-    "slide7",
-    `./src/common/Dispositivos.png`,
-    84.98,
-    175.92,
-    367.7,
-    283.28
-  );
-
-  await addImage(
-    reportPath,
-    reportPath,
-    "slide7",
-    `./src/common/Informações_demográficas.png`,
-    506.51,
-    175.92,
-    367.7,
-    283.28
-  );
+  for (var j in imagesData) {
+    await addImage(
+      reportPath,
+      reportPath,
+      imagesData[j].slide,
+      imagesData[j].path,
+      imagesData[j].x,
+      imagesData[j].y,
+      imagesData[j].width,
+      imagesData[j].height
+    );
+  }
 
   await mailer(reportPath);
 }
