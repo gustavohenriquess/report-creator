@@ -1,5 +1,7 @@
+require("dotenv").config();
 const PPTX = require("nodejs-pptx");
 const dateHelper = require("./utils/date.js");
+const mailer = require("./utils/send_email.js");
 
 const date = new Date();
 const year = date.getFullYear();
@@ -189,6 +191,8 @@ async function execute() {
     367.7,
     283.28
   );
+
+  await mailer(reportPath);
 }
 
 execute();
