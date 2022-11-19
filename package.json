@@ -19,5 +19,8 @@
   },
   "scripts": {
     "commit": "yarn git-cz"
+  },
+  "dependencies": {
+    "nodejs-pptx": "^1.0.1"
   }
 }
