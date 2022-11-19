@@ -3,7 +3,10 @@ const dateHelper = require("./utils/date.js");
 
 const date = new Date();
 const year = date.getFullYear();
-const pptxPath = `./src/template.pptx`;
+const templatePath = `./src/template.pptx`;
+const reportPath = `./src/${dateHelper.getMonthName(
+  date.getMonth()
+)}-${year}.pptx`;
 
 const firstPageTitle = `Google Adwords - ${dateHelper.getMonthName(
   date.getMonth()
@@ -13,7 +16,16 @@ const generalTitle = `GOOGLE ADWORDS | ${dateHelper
   .getMonthName(date.getMonth())
   .toUpperCase()} ${year}`;
 
-async function addImage(filePath, slide, imagePath, x, y, width, height) {
+async function addImage(
+  filePath,
+  reportPath,
+  slide,
+  imagePath,
+  x,
+  y,
+  width,
+  height
+) {
   try {
     let pptx = new PPTX.Composer();
     await pptx.load(filePath);
@@ -23,13 +35,13 @@ async function addImage(filePath, slide, imagePath, x, y, width, height) {
       });
     });
 
-    await pptx.save(filePath);
+    await pptx.save(reportPath);
   } catch (error) {
     console.log(error);
   }
 }
 
-async function addText(filePath, slide, config) {
+async function addText(filePath, reportPath, slide, config) {
   let pptx = new PPTX.Composer();
   await pptx.load(filePath);
 
@@ -37,11 +49,11 @@ async function addText(filePath, slide, config) {
     await pres.getSlide(slide).addText(config);
   });
 
-  await pptx.save(filePath);
+  await pptx.save(reportPath);
 }
 
 async function execute() {
-  await addText(pptxPath, "slide1", {
+  await addText(templatePath, reportPath, "slide1", {
     value: firstPageTitle,
     x: 304.81,
     y: 505.66,
@@ -55,7 +67,7 @@ async function execute() {
   });
 
   for (var i = 2; i <= 10; i++) {
-    await addText(pptxPath, "slide" + i, {
+    await addText(reportPath, reportPath, "slide" + i, {
       value: generalTitle,
       x: 660,
       y: 12.74,
@@ -69,7 +81,8 @@ async function execute() {
   }
 
   await addImage(
-    pptxPath,
+    reportPath,
+    reportPath,
     "slide2",
     `./src/common/serie_temporal.png`,
     68.55,
@@ -79,7 +92,8 @@ async function execute() {
   );
 
   await addImage(
-    pptxPath,
+    reportPath,
+    reportPath,
     "slide3",
     `./src/common/Anúncios.png`,
     84.98,
@@ -89,7 +103,8 @@ async function execute() {
   );
 
   await addImage(
-    pptxPath,
+    reportPath,
+    reportPath,
     "slide3",
     `./src/common/Anúncios_mais_exibidos_2.png`,
     506.51,
@@ -99,7 +114,8 @@ async function execute() {
   );
 
   await addImage(
-    pptxPath,
+    reportPath,
+    reportPath,
     "slide4",
     `./src/common/Anúncios_mais_exibidos_3.png`,
     84.98,
@@ -109,7 +125,8 @@ async function execute() {
   );
 
   await addImage(
-    pptxPath,
+    reportPath,
+    reportPath,
     "slide4",
     `./src/common/Anúncios_mais_exibidos_4.png`,
     506.51,
@@ -119,7 +136,8 @@ async function execute() {
   );
 
   await addImage(
-    pptxPath,
+    reportPath,
+    reportPath,
     "slide5",
     `./src/common/Anúncios_mais_exibidos_5.png`,
     84.98,
@@ -129,7 +147,8 @@ async function execute() {
   );
 
   await addImage(
-    pptxPath,
+    reportPath,
+    reportPath,
     "slide5",
     `./src/common/Anúncios_mais_exibidos_6.png`,
     506.51,
@@ -139,7 +158,8 @@ async function execute() {
   );
 
   await addImage(
-    pptxPath,
+    reportPath,
+    reportPath,
     "slide6",
     `./src/common/Pagina Destino.png`,
     206.51,
@@ -149,7 +169,8 @@ async function execute() {
   );
 
   await addImage(
-    pptxPath,
+    reportPath,
+    reportPath,
     "slide7",
     `./src/common/Dispositivos.png`,
     84.98,
@@ -159,7 +180,8 @@ async function execute() {
   );
 
   await addImage(
-    pptxPath,
+    reportPath,
+    reportPath,
     "slide7",
     `./src/common/Informações_demográficas.png`,
     506.51,
