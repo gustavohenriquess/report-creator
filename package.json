@@ -19,7 +19,10 @@
   },
   "scripts": {
     "commit": "yarn git-cz",
-    "start:dev": "NODE_ENV=development node src/infra/http/server.js"
+    "start:dev": "NODE_ENV=development node src/infra/http/server.js",
+    "start:prd": "node src/infra/http/server.js",
+    "docker:build": "docker build . -t report-creator",
+    "docker:run": "docker run -d -p 3000:3000 report-creator"
   },
   "dependencies": {
     "cors": "^2.8.5",
