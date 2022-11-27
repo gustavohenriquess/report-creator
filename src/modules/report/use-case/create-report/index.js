@@ -1,5 +1,7 @@
 const PPTX = require("nodejs-pptx");
+var fs = require("fs");
 const dateHelper = require("../../utils/date.js");
+const sendMail = require("../../../mail/use-case/send-mail");
 const imagesData = [
   {
     slide: "slide2",
@@ -86,6 +88,7 @@ const imagesData = [
 class CreateReport {
   _date = new Date();
   _year = this._date.getFullYear();
+  _commonPath = process.env.COMMON_PATH;
   _templatePath = process.env.TEMPLATE_PATH;
   _reportPath = `${process.env.REPORT_PATH}/${dateHelper.getMonthName(
     this._date.getMonth()
@@ -141,6 +144,10 @@ class CreateReport {
         );
       }
 
+      await sendMail.execute();
+
+      await this.deleteFiles();
+
       return response.status(200).json({
         message: "Report created successfully",
       });
@@ -175,6 +182,19 @@ class CreateReport {
     });
 
     await pptx.save(reportPath);
+  }
+
+  async deleteFiles() {
+    fs.readdir(`${this._commonPath}`, (err, files) => {
+      if (err) throw err;
+
+      for (const file of files) {
+        fs.unlinkSync(`${this._commonPath}/${file}`, (err) => {
+          if (err) throw err;
+        });
+      }
+    });
+    fs.unlinkSync(this._reportPath);
   }
 }
 
