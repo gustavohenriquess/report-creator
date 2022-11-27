@@ -1,4 +1,5 @@
 node_modules 
 conventional-script.sh
 src/common/*png
-.env.*
+.env.development
+.env.production
