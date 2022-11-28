@@ -2,88 +2,7 @@ const PPTX = require("nodejs-pptx");
 var fs = require("fs");
 const dateHelper = require("../../utils/date.js");
 const sendMail = require("../../../mail/use-case/send-mail");
-const imagesData = [
-  {
-    slide: "slide2",
-    path: `./src/common/Série_temporal.png`,
-    x: 68.55,
-    y: 156.37,
-    width: 821.81,
-    height: 271.96,
-  },
-  {
-    slide: "slide3",
-    path: `./src/common/Anúncios.png`,
-    x: 84.98,
-    y: 175.92,
-    width: 367.7,
-    height: 283.28,
-  },
-  {
-    slide: "slide3",
-    path: `./src/common/Anúncios_mais_exibidos_2.png`,
-    x: 506.51,
-    y: 175.92,
-    width: 367.7,
-    height: 283.28,
-  },
-  {
-    slide: "slide4",
-    path: `./src/common/Anúncios_mais_exibidos_3.png`,
-    x: 84.98,
-    y: 175.92,
-    width: 367.7,
-    height: 283.28,
-  },
-  {
-    slide: "slide4",
-    path: `./src/common/Anúncios_mais_exibidos_4.png`,
-    x: 506.51,
-    y: 175.92,
-    width: 367.7,
-    height: 283.28,
-  },
-  {
-    slide: "slide5",
-    path: `./src/common/Anúncios_mais_exibidos_5.png`,
-    x: 84.98,
-    y: 175.92,
-    width: 367.7,
-    height: 283.28,
-  },
-  {
-    slide: "slide5",
-    path: `./src/common/Anúncios_mais_exibidos_6.png`,
-    x: 506.51,
-    y: 175.92,
-    width: 367.7,
-    height: 283.28,
-  },
-  {
-    slide: "slide6",
-    path: `./src/common/Pagina Destino.png`,
-    x: 206.51,
-    y: 63.17,
-    width: 622.37,
-    height: 416.71,
-  },
-  {
-    slide: "slide7",
-    path: `./src/common/Dispositivos.png`,
-    x: 84.98,
-    y: 175.92,
-    width: 367.7,
-    height: 283.28,
-  },
-  {
-    slide: "slide7",
-    path: `./src/common/Informações_demográficas.png`,
-    x: 506.51,
-    y: 175.92,
-    width: 367.7,
-    height: 283.28,
-  },
-];
+const defaultInfo = require("../default-info");
 
 class CreateReport {
   _date = new Date();
@@ -91,60 +10,60 @@ class CreateReport {
   _commonPath = process.env.COMMON_PATH;
   _templatePath = process.env.TEMPLATE_PATH;
   _reportPath = `${process.env.REPORT_PATH}/${dateHelper.getMonthName(
-    this._date.getMonth()
+    this._date.getMonth() - 1
   )}-${this._year}.pptx`;
+  _reportInfo = [];
 
   async execute(request, response) {
     try {
-      const firstPageTitle = `Google Adwords - ${dateHelper.getMonthName(
-        this._date.getMonth()
-      )} ${this._year}`;
+      this._reportInfo = await defaultInfo.getInfo();
 
-      const generalTitle = `GOOGLE ADWORDS | ${dateHelper
-        .getMonthName(this._date.getMonth())
-        .toUpperCase()} ${this._year}`;
+      if (request.body.month && request.body.year && request.body.report_type)
+        await this.createPath(request.body);
 
-      await this.addText(this._templatePath, this._reportPath, "slide1", {
-        value: firstPageTitle,
-        x: 304.81,
-        y: 505.66,
-        cx: 305.94,
-        cy: 24.07,
-        textAlign: "center",
-        textWrap: "none",
-        fontSize: 14,
-        fontFace: "Montserrat",
-        textColor: "000000",
-      });
+      if (request.body.reportInfo) {
+        this._reportInfo = request.body.reportInfo;
+      }
+      fs.copyFileSync(this._templatePath, this._reportPath);
 
-      for (var i = 2; i <= 10; i++) {
-        await this.addText(this._reportPath, this._reportPath, "slide" + i, {
-          value: generalTitle,
-          x: 660,
-          y: 12.74,
-          // textAlign: "center",
-          textWrap: "none",
-          fontSize: 14,
-          fontFace: "Montserrat",
-          textColor: "a0d911",
-          fontBold: true,
-        });
+      for (let i in this._reportInfo) {
+        let info = this._reportInfo[i];
+
+        if (info.type == "text" && !info.multiSlide) {
+          await this.addText(
+            this._reportPath,
+            this._reportPath,
+            info.slide,
+            info.config
+          );
+        }
+
+        if (info.type == "text" && info.multiSlide) {
+          for (let j = info.slideStart; j <= info.slideEnd; j++) {
+            await this.addText(
+              this._reportPath,
+              this._reportPath,
+              "slide" + j,
+              info.config
+            );
+          }
+        }
+
+        if (info.type == "image" && !info.multiSlide) {
+          await this.addImage(
+            this._reportPath,
+            this._reportPath,
+            info.slide,
+            info.path,
+            info.x,
+            info.y,
+            info.width,
+            info.height
+          );
+        }
       }
 
-      for (var j in imagesData) {
-        await this.addImage(
-          this._reportPath,
-          this._reportPath,
-          imagesData[j].slide,
-          imagesData[j].path,
-          imagesData[j].x,
-          imagesData[j].y,
-          imagesData[j].width,
-          imagesData[j].height
-        );
-      }
-
-      await sendMail.execute();
+      await sendMail.execute(this._reportPath);
 
       await this.deleteFiles();
 
@@ -194,7 +113,14 @@ class CreateReport {
         });
       }
     });
-    fs.unlinkSync(this._reportPath);
+  }
+
+  async createPath(body) {
+    this._reportPath = `${process.env.REPORT_PATH}/${
+      body.report_type
+    } - ${dateHelper.getMonthName(body.month - 1)}-${body.year}.pptx`;
+
+    this._reportInfo = await defaultInfo.getInfo(body);
   }
 }
 

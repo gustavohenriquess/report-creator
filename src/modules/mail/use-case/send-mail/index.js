@@ -8,12 +8,11 @@ class SendMail {
   _date = new Date();
   _year = this._date.getFullYear();
   _templatePath = process.env.TEMPLATE_PATH;
-  _reportPath = `${process.env.REPORT_PATH}/${dateHelper.getMonthName(
-    this._date.getMonth()
-  )}-${this._year}.pptx`;
+  _reportPath = "";
 
-  async execute() {
+  async execute(reportPath) {
     try {
+      this._reportPath = reportPath;
       const splitPath = this._reportPath.split("/");
       const fileName = splitPath[splitPath.length - 1];
 
