@@ -82,7 +82,7 @@ class DefaultInfo {
       {
         type: "image",
         slide: "slide2",
-        path: `./src/common/Série_temporal.png`,
+        path: `serie_temporal.png`,
         x: 68.55,
         y: 156.37,
         width: 821.81,
@@ -91,7 +91,7 @@ class DefaultInfo {
       {
         type: "image",
         slide: "slide3",
-        path: `./src/common/Anúncios.png`,
+        path: `anuncios.png`,
         x: 84.98,
         y: 175.92,
         width: 367.7,
@@ -100,7 +100,7 @@ class DefaultInfo {
       {
         type: "image",
         slide: "slide3",
-        path: `./src/common/Anúncios_mais_exibidos_2.png`,
+        path: `anuncios_mais_exibidos_2.png`,
         x: 506.51,
         y: 175.92,
         width: 367.7,
@@ -109,7 +109,7 @@ class DefaultInfo {
       {
         type: "image",
         slide: "slide4",
-        path: `./src/common/Anúncios_mais_exibidos_3.png`,
+        path: `anuncios_mais_exibidos_3.png`,
         x: 84.98,
         y: 175.92,
         width: 367.7,
@@ -118,7 +118,7 @@ class DefaultInfo {
       {
         type: "image",
         slide: "slide4",
-        path: `./src/common/Anúncios_mais_exibidos_4.png`,
+        path: `anuncios_mais_exibidos_4.png`,
         x: 506.51,
         y: 175.92,
         width: 367.7,
@@ -127,7 +127,7 @@ class DefaultInfo {
       {
         type: "image",
         slide: "slide5",
-        path: `./src/common/Anúncios_mais_exibidos_5.png`,
+        path: `anuncios_mais_exibidos_5.png`,
         x: 84.98,
         y: 175.92,
         width: 367.7,
@@ -136,7 +136,7 @@ class DefaultInfo {
       {
         type: "image",
         slide: "slide5",
-        path: `./src/common/Anúncios_mais_exibidos_6.png`,
+        path: `anuncios_mais_exibidos_6.png`,
         x: 506.51,
         y: 175.92,
         width: 367.7,
@@ -145,7 +145,7 @@ class DefaultInfo {
       {
         type: "image",
         slide: "slide6",
-        path: `./src/common/Pagina Destino.png`,
+        path: `pagina destino.png`,
         x: 206.51,
         y: 63.17,
         width: 622.37,
@@ -154,7 +154,7 @@ class DefaultInfo {
       {
         type: "image",
         slide: "slide7",
-        path: `./src/common/Dispositivos.png`,
+        path: `dispositivos.png`,
         x: 84.98,
         y: 175.92,
         width: 367.7,
@@ -163,7 +163,7 @@ class DefaultInfo {
       {
         type: "image",
         slide: "slide7",
-        path: `./src/common/Informações_demográficas.png`,
+        path: `informacoes_demograficas.png`,
         x: 506.51,
         y: 175.92,
         width: 367.7,

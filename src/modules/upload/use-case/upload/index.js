@@ -4,8 +4,10 @@ const renameFile = require("../../utils/rename-files");
 
 class UploadImage {
   async execute(request, response) {
-    const files = await renameFile(process.env.COMMON_PATH);
-    return response.status(200).json({ message: "ok - files uploaded", files });
+    const new_names = await renameFile(process.env.COMMON_PATH);
+    return response
+      .status(200)
+      .json({ message: "ok - files uploaded", new_names });
   }
 
   configMulter() {

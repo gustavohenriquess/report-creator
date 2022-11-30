@@ -9,9 +9,11 @@ class CreateReport {
   _year = this._date.getFullYear();
   _commonPath = process.env.COMMON_PATH;
   _templatePath = process.env.TEMPLATE_PATH;
-  _reportPath = `${process.env.REPORT_PATH}/${dateHelper.getMonthName(
-    this._date.getMonth() - 1
-  )}-${this._year}.pptx`;
+  _reportPath = `${
+    process.env.REPORT_PATH
+  }/Google Adwords - ${dateHelper.getMonthName(this._date.getMonth() - 1)}-${
+    this._year
+  }.pptx`;
   _reportInfo = [];
 
   async execute(request, response) {
@@ -54,7 +56,7 @@ class CreateReport {
             this._reportPath,
             this._reportPath,
             info.slide,
-            info.path,
+            `${process.env.COMMON_PATH}/${info.path}`,
             info.x,
             info.y,
             info.width,

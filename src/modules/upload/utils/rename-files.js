@@ -2,7 +2,6 @@ const fs = require("fs");
 
 async function rename(basePath) {
   const files = fs.readdirSync(`${basePath}`);
-  console.log(files, "files");
   let filesName = [];
 
   for (const file of files) {
@@ -13,8 +12,8 @@ async function rename(basePath) {
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase();
-    filesName.push(name);
     fs.renameSync(`${basePath}/${file}`, `${basePath}/${name}`);
+    filesName.push(name);
   }
 
   return filesName;
