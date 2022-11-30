@@ -1,17 +1,23 @@
 const fs = require("fs");
 
 async function rename(basePath) {
-  fs.readdir(`${basePath}`, (err, files) => {
-    if (err) throw err;
+  const files = fs.readdirSync(`${basePath}`);
+  console.log(files, "files");
+  let filesName = [];
 
-    for (const file of files) {
-      if (!file.includes("(")) continue;
-      const newName = file.split("(")[0] + ".png";
-      fs.rename(`${basePath}${file}`, `${basePath}${newName}`, (err) => {
-        if (err) throw err;
-      });
-    }
-  });
+  for (const file of files) {
+    var name = "";
+    if (file.includes("(")) name = file.split("(")[0] + ".png";
+    else name = file;
+    name = name
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+    filesName.push(name);
+    fs.renameSync(`${basePath}/${file}`, `${basePath}/${name}`);
+  }
+
+  return filesName;
 }
 
 module.exports = rename;

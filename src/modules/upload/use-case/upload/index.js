@@ -3,9 +3,9 @@ const multer = require("multer");
 const renameFile = require("../../utils/rename-files");
 
 class UploadImage {
-  execute(request, response) {
-    renameFile(process.env.COMMON_PATH);
-    return response.status(200).json({ message: "ok - files uploaded" });
+  async execute(request, response) {
+    const files = await renameFile(process.env.COMMON_PATH);
+    return response.status(200).json({ message: "ok - files uploaded", files });
   }
 
   configMulter() {
