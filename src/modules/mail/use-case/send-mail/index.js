@@ -5,8 +5,6 @@ class SendMail {
   _user = process.env.MAIL_AUTH_USER;
   _pass = process.env.MAIL_AUTH_PASS;
   _to = process.env.MAIL_TO;
-  _date = new Date();
-  _year = this._date.getFullYear();
   _templatePath = process.env.TEMPLATE_PATH;
   _reportPath = "";
 
@@ -15,14 +13,13 @@ class SendMail {
       this._reportPath = reportPath;
       const splitPath = this._reportPath.split("/");
       const fileName = splitPath[splitPath.length - 1];
+      const nameReport = fileName.split(".")[0];
 
       const transporter = await this.config();
       const mail = {
         from: this._user,
         to: this._to,
-        subject: `Report ${dateHelper.getMonthName(
-          this._date.getMonth()
-        )} - ${this._date.getFullYear()}`,
+        subject: `REPORT - ${nameReport}`,
         text: "Report attached",
         attachments: [
           {
