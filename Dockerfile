@@ -8,7 +8,7 @@ WORKDIR /app/report
 COPY . .
 
 RUN yarn install
-
+COPY index.js ./node_modules/nodejs-pptx/lib/factories
 
 ENV NODE_ENV=production
 
