@@ -12,6 +12,8 @@ After creating the slide, it sends the report by e-mail and deletes all images s
 
 ## Routes
 
+[insomnia](./docs/Insomnia.json)
+
 - GET [REPORT INFO](./docs/report-info.md)
 - POST [UPLOAD IMAGES](./docs/upload-images.md)
 - POST [REPORT CREATE](./docs/report-create.md)
