@@ -61,11 +61,14 @@ class DefaultInfo {
     if (!body || !body.year || !body.month || !body.report_type) {
       this._firstPageTitle = `Google Adwords - ${dateHelper.getMonthName(
         this._date.getMonth() - 1
-      )} ${this._year}`;
+      )} ${dateHelper.getYear(this._date.getMonth() - 1, this._year)}`;
 
       this._generalTitle = `Google Adwords | ${dateHelper
         .getMonthName(this._date.getMonth() - 1)
-        .toUpperCase()} ${this._year}`;
+        .toUpperCase()} ${dateHelper.getYear(
+        this._date.getMonth() - 1,
+        this._year
+      )}`;
     } else {
       this._firstPageTitle = `${body.report_type} - ${dateHelper.getMonthName(
         body.month - 1

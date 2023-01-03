@@ -11,9 +11,9 @@ class CreateReport {
   _templatePath = process.env.TEMPLATE_PATH;
   _reportPath = `${
     process.env.REPORT_PATH
-  }/Google Adwords - ${dateHelper.getMonthName(this._date.getMonth() - 1)}-${
-    this._year
-  }.pptx`;
+  }/Google Adwords - ${dateHelper.getMonthName(
+    this._date.getMonth() - 1
+  )}-${dateHelper.getYear(this._date.getMonth() - 1, this._year)}.pptx`;
   _reportInfo = [];
 
   async execute(request, response) {

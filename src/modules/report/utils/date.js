@@ -15,7 +15,14 @@ const months = [
 
 const dateHelper = {
   getMonthName: (number) => {
+    if (number == -1) number = 11;
+
     return months[number];
+  },
+  getYear: (month, year) => {
+    if (month == -1) return year - 1;
+
+    return year;
   },
 };
 
