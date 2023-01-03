@@ -23,6 +23,7 @@ After creating the slide, it sends the report by e-mail and deletes all images s
 ## Utils
 
 - [normalize](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize)
+- [Buffer.from()](https://www.w3schools.com/nodejs/met_buffer_from.asp)
 
 <br />
 
